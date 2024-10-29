@@ -11,25 +11,25 @@ const removeProperties = 'removeProperties';
 const clear = 'clear';
 
 function transformStateWithClones(state, actions) {
-  const STATES = [];
-  let CURRENT_STATE = { ...state };
+  const states = [];
+  let currentState = { ...state };
 
   for (const action of actions) {
-    let NEXT_STATE;
+    let nextState;
 
     switch (action.type) {
       case clear:
-        NEXT_STATE = {};
+        nextState = {};
         break;
 
       case addProperties:
-        NEXT_STATE = { ...CURRENT_STATE, ...action.extraData };
+        nextState = { ...currentState, ...action.extraData };
         break;
       case removeProperties:
-        NEXT_STATE = { ...CURRENT_STATE };
+        nextState = { ...currentState };
 
         for (const key of action.keysToRemove) {
-          delete NEXT_STATE[key];
+          delete nextState[key];
         }
         break;
 
@@ -37,11 +37,11 @@ function transformStateWithClones(state, actions) {
         continue;
     }
 
-    STATES.push(NEXT_STATE);
-    CURRENT_STATE = NEXT_STATE;
+    states.push(nextState);
+    currentState = nextState;
   }
 
-  return STATES;
+  return states;
 }
 
 module.exports = transformStateWithClones;
